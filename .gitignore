@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Data files (EXCLUDE ALL DATA)
+data/tick_data/
+data/raw_bars/
+data/factors/manip/*.parquet
+data/factors/ofi/*.parquet
+data/factors/vol_liq/*.parquet
+data/factors/merged_three_factor/*.parquet
+*.csv
+*.parquet
+*.feather
+*.h5
+*.hdf5
+
+# Results (keep structure but exclude large files)
+results/**/*.csv
+results/**/*.parquet
+results/**/*.png
+results/**/*.jpg
+results/**/*.pdf
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# SSH keys
+*.pem
+*.key
+
+# Legacy repos (symlinks)
+repos/
+
+# Keep directory structure
+!data/factors/manip/.gitkeep
+!data/factors/ofi/.gitkeep
+!data/factors/vol_liq/.gitkeep
+!data/factors/merged_three_factor/.gitkeep
+!results/three_factor_regime/single_factor_deciles/.gitkeep
+!results/three_factor_regime/regime_stats/.gitkeep
+
