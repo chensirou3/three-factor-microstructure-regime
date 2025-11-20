@@ -16,7 +16,7 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
 from baseline_strategy import generate_baseline_signals
-from regime_wrapper import apply_regime_gating_and_sizing
+from regime_wrapper import apply_regime_wrapper
 from backtest_engine import run_backtest
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -231,7 +231,7 @@ def run_grid_search(
                 )
 
                 # Apply regime wrapper
-                df_regime = apply_regime_gating_and_sizing(
+                df_regime = apply_regime_wrapper(
                     df_signals,
                     regime_config
                 )
