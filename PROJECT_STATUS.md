@@ -1,8 +1,9 @@
 # Three-Factor Combo Project Status / 三因子组合项目状态
 
-**Project Name / 项目名称**: microstructure-three-factor-regime  
-**Created / 创建日期**: 2025-11-20  
-**Status / 状态**: ✅ Setup Complete - Ready for Research / 设置完成 - 准备研究
+**Project Name / 项目名称**: microstructure-three-factor-regime
+**Created / 创建日期**: 2025-11-20
+**Last Updated / 最后更新**: 2025-11-20
+**Status / 状态**: ✅ Strategy Phase 2 Framework Complete / 策略第二阶段框架完成
 
 ---
 
@@ -300,6 +301,79 @@ We have completed the "整理" (Organize) phase. The "画像" (Characterize) pha
 
 ---
 
+## Strategy Phase 2: Optimization & Deep Analysis / 策略第二阶段：优化与深度分析
+
+**Status / 状态**: ✅ Framework Complete / 框架完成
+
+### Phase 2 Modules / 第二阶段模块
+
+- [ ] **Phase 2A – Threshold Calibration / 阈值校准**
+  - ✅ Module implemented: `research/strategy/phase2/threshold_calibration.py`
+  - ✅ Config created: `config_phase2.yaml`
+  - [ ] Analysis executed on Phase 1 results
+  - [ ] New thresholds calibrated and validated
+
+- [ ] **Phase 2B – Regime Tail-Risk Analysis / Regime尾部风险分析**
+  - ✅ Module implemented: `research/strategy/phase2/regime_tailrisk_analysis.py`
+  - [ ] Tail statistics computed for all regimes
+  - [ ] "High risk = high return" paradox resolved
+  - [ ] Best risk-adjusted regime identified
+
+- [ ] **Phase 2C – Strategy Tuning & Cost Model / 策略调优与成本模型**
+  - ✅ Module implemented: `research/strategy/phase2/strategy_tuning.py`
+  - ✅ Transaction cost model added
+  - [ ] Gross vs net performance compared
+  - [ ] Per-symbol parameters optimized (optional grid search)
+
+- [ ] **Phase 2D – Regime Persistence & Transition Analysis / Regime持续性与转换分析**
+  - ✅ Module implemented: `research/strategy/phase2/regime_persistence_analysis.py`
+  - [ ] Regime duration distributions computed
+  - [ ] Transition matrices built
+  - [ ] Entry vs holding regime patterns analyzed
+
+### Phase 2 Deliverables / 第二阶段交付成果
+
+**Code / 代码**:
+- ✅ `research/strategy/phase2/__init__.py`
+- ✅ `research/strategy/phase2/config_phase2.yaml`
+- ✅ `research/strategy/phase2/README_phase2.md`
+- ✅ `research/strategy/phase2/threshold_calibration.py`
+- ✅ `research/strategy/phase2/regime_tailrisk_analysis.py`
+- ✅ `research/strategy/phase2/strategy_tuning.py`
+- ✅ `research/strategy/phase2/regime_persistence_analysis.py`
+
+**Expected Outputs / 预期输出** (to be generated):
+- `results/strategy/phase2/threshold_calibration/` - Threshold analysis results
+- `results/strategy/phase2/tailrisk_analysis/` - Tail-risk statistics
+- `results/strategy/phase2/strategy_tuning/` - Tuning and cost analysis
+- `results/strategy/phase2/regime_persistence/` - Persistence and transition analysis
+
+### Next Steps / 下一步
+
+1. **Run Phase 2A**: Execute threshold calibration on Phase 1 results
+   ```bash
+   python research/strategy/phase2/threshold_calibration.py
+   ```
+
+2. **Run Phase 2B**: Compute tail-risk statistics
+   ```bash
+   python research/strategy/phase2/regime_tailrisk_analysis.py
+   ```
+
+3. **Run Phase 2C**: Analyze cost impact and tune parameters
+   ```bash
+   python research/strategy/phase2/strategy_tuning.py
+   ```
+
+4. **Run Phase 2D**: Study regime dynamics
+   ```bash
+   python research/strategy/phase2/regime_persistence_analysis.py
+   ```
+
+5. **Review and iterate**: Based on Phase 2 findings, update config and re-run backtests
+
+---
+
 **Last Updated / 最后更新**: 2025-11-20
 **Maintained By / 维护者**: Quant Research Team
-**Status / 状态**: ✅ Phase 1 Complete, Strategy Phase 1 Complete / Phase 1完成，策略Phase 1完成
+**Status / 状态**: ✅ Phase 1 Complete, Strategy Phase 1 Complete, Strategy Phase 2 Framework Complete / Phase 1完成，策略Phase 1完成，策略Phase 2框架完成

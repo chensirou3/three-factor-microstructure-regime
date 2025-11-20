@@ -1,0 +1,103 @@
+# Strategy Phase 2 Configuration
+# Building on Phase 1 baseline strategy with optimization & deep analysis
+
+# ============================================================================
+# Phase 2A: Threshold Calibration
+# ============================================================================
+phase2A:
+  # Target fraction of trades we want gating to potentially block (roughly)
+  target_block_rate_range: [0.10, 0.30]
+  
+  # Candidate high_riskscore thresholds to test
+  candidate_high_riskscore: [0.55, 0.60, 0.65, 0.70, 0.75, 0.80]
+  
+  # Whether to include box-based gating in calibration
+  use_box_gating: false
+  
+  # Paths
+  trades_dir: "results/strategy"
+  config_strategy_path: "research/strategy/config_strategy.yaml"
+  compare_output_dir: "results/strategy/phase2/threshold_calibration"
+
+# ============================================================================
+# Phase 2B: Regime Tail-Risk Analysis
+# ============================================================================
+phase2B:
+  # Tail percentiles to compute
+  tail_percentiles: [1, 5, 10, 90, 95, 99]
+  
+  # Minimum sample size for box-level analysis
+  min_samples_per_box: 50
+  
+  # Output paths
+  output_dir: "results/strategy/phase2/tailrisk_analysis"
+
+# ============================================================================
+# Phase 2C: Strategy Tuning & Cost Model
+# ============================================================================
+phase2C:
+  # Transaction costs
+  costs:
+    per_trade_bps: 1.0        # 0.01% per side (1 basis point)
+    apply_to_entry: true
+    apply_to_exit: true
+  
+  # Per-symbol/timeframe EMA parameters (override defaults)
+  strategy_params:
+    default:
+      fast_len: 20
+      slow_len: 50
+    
+    # Per-symbol overrides (optional)
+    per_symbol_timeframe:
+      BTCUSD:
+        "30min": { fast_len: 15, slow_len: 40 }
+        "4h":    { fast_len: 20, slow_len: 60 }
+        "1d":    { fast_len: 25, slow_len: 70 }
+      XAUUSD:
+        "1h":    { fast_len: 10, slow_len: 40 }
+        "30min": { fast_len: 12, slow_len: 45 }
+  
+  # Grid search parameters (optional, for tuning)
+  grid_search:
+    enabled: false
+    fast_len_candidates: [10, 15, 20, 25]
+    slow_len_candidates: [40, 50, 60, 80]
+    # Only run on these timeframes to save compute
+    focus_timeframes: ["30min", "1h", "4h", "1d"]
+  
+  # Output paths
+  output_dir: "results/strategy/phase2/strategy_tuning"
+
+# ============================================================================
+# Phase 2D: Regime Persistence & Transition Analysis
+# ============================================================================
+phase2D:
+  # Regime column to analyze
+  regime_col: "risk_regime"
+  
+  # Duration percentiles to report
+  duration_percentiles: [50, 75, 90, 95]
+  
+  # Minimum duration (bars) to consider a regime "stable"
+  min_stable_duration: 3
+  
+  # Output paths
+  output_dir: "results/strategy/phase2/regime_persistence"
+
+# ============================================================================
+# Global Settings
+# ============================================================================
+global:
+  # Symbols and timeframes (inherit from Phase 1)
+  symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
+  timeframes: ["5min", "15min", "30min", "1h", "4h", "1d"]
+  
+  # Data paths
+  data_dir: "data/factors/merged_three_factor"
+  phase1_results_dir: "results/strategy"
+  phase2_results_dir: "results/strategy/phase2"
+  
+  # Logging
+  log_level: "INFO"
+
