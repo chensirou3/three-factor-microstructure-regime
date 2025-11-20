@@ -1,0 +1,48 @@
+# Strategy Phase 1 Configuration
+# Regime-aware baseline strategy settings
+
+# Symbols and timeframes to backtest
+symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
+timeframes: ["4h"]  # Start with 4h for S1; can extend later
+
+# Baseline strategy parameters (EMA trend-following)
+baseline:
+  fast_len: 20
+  slow_len: 50
+
+# Risk thresholds for regime classification
+risk_thresholds:
+  high_riskscore: 0.8
+  low_riskscore: 0.3
+
+# Position sizing rules by risk regime
+position_sizing:
+  base_size: 1.0
+  size_by_riskregime:
+    low: 1.0      # Full size in low-risk regimes
+    medium: 0.7   # 70% size in medium-risk regimes
+    high: 0.3     # 30% size in high-risk regimes
+
+# Gating rules (block new entries in high-risk conditions)
+gating:
+  block_new_entries_in_high_pressure: true
+  block_new_entries_in_triple_high_box: true
+
+# Triple high box name (adjust to actual string used in data)
+triple_high_box_name: "M_high_O_high_V_high"
+
+# Backtesting parameters
+backtest:
+  initial_equity: 100000.0
+  transaction_cost_pct: 0.0  # 0% for v1, can add later
+  slippage_pct: 0.0          # 0% for v1, can add later
+
+# Output paths (relative to project root)
+output:
+  results_dir: "results/strategy"
+  
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+

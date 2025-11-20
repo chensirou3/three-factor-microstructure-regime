@@ -158,42 +158,59 @@ See `research/three_factor_regime/README_three_factor_regime.md` for detailed me
 
 ---
 
+## Completed Work / 已完成工作
+
+### Phase 1: Research Framework ✅
+- ✅ Standardized all three factors (ManipScore, OFI, VolLiqScore)
+- ✅ Merged three-factor datasets (36 files)
+- ✅ Implemented regime feature engineering
+- ✅ Single-factor decile analysis (ManipScore)
+- ✅ Three-factor regime statistics (108 CSV files)
+- ✅ GitHub synchronization
+
+### Strategy Phase 1: Regime-aware Baseline ✅
+- ✅ Implemented EMA crossover baseline strategy
+- ✅ Regime-based gating and position sizing
+- ✅ Event-based backtesting engine
+- ✅ Regime-conditioned performance analysis
+- ✅ Backtested 6 symbols on 4h timeframe
+- ✅ Generated 36 result files + comparison report
+
 ## Next Steps / 下一步
 
-### Immediate Tasks / 即时任务
+### Immediate Tasks (This Week) / 即时任务（本周）
 
-1. **Standardize ManipScore Output / 标准化ManipScore输出**
-   - Investigate current output format in `market-manipulation` project  
-     调查 `market-manipulation` 项目中的当前输出格式
-   - Convert to per-bar format matching OFI and VolLiq data  
-     转换为与OFI和VolLiq数据匹配的每根K线格式
-   - Create symlink to `data/factors/manip/`  
-     创建符号链接到 `data/factors/manip/`
+1. **Calibrate Gating Thresholds / 校准过滤阈值**
+   - [ ] Analyze regime feature distributions (RiskScore, high_pressure frequency)
+   - [ ] Set thresholds to block 10-20% of entries (currently 0%)
+   - [ ] Re-run backtest with calibrated thresholds
 
-2. **Implement Data Loader / 实现数据加载器**
-   - Create `research/three_factor_regime/data_loader.py`  
-     创建 `research/three_factor_regime/data_loader.py`
-   - Load and merge all three factors into unified DataFrame  
-     加载并合并所有三个因子到统一DataFrame
-   - Add data validation and quality checks  
-     添加数据验证和质量检查
+2. **Investigate High-Risk Paradox / 调查高风险悖论**
+   - [ ] Plot volatility vs returns by regime
+   - [ ] Analyze trade duration by regime
+   - [ ] Check if high-risk regimes coincide with strong trends
 
-3. **Begin Single-Factor Analysis / 开始单因子分析**
-   - Implement decile analysis for each factor  
-     为每个因子实现十分位数分析
-   - Generate decile vs tail risk curves  
-     生成十分位数 vs 尾部风险曲线
+3. **Expand Analysis / 扩展分析**
+   - [ ] Run on multiple timeframes (1h, 1d) for robustness
+   - [ ] Analyze regime persistence (how long do regimes last?)
+   - [ ] Cross-asset regime correlation
 
-### Long-Term Goals / 长期目标
+### Medium-term (Next 2 Weeks) / 中期（未来2周）
 
-- Complete all research goals outlined in `research/three_factor_regime/README_three_factor_regime.md`  
-  完成 `research/three_factor_regime/README_three_factor_regime.md` 中概述的所有研究目标
-- Create Jupyter notebooks for each analysis type  
-  为每种分析类型创建Jupyter notebooks
-- Write summary report comparing predictive power of different factor combinations  
-  编写总结报告，比较不同因子组合的预测能力
-- Provide recommendations for strategy integration  
-  提供策略整合建议
+4. **Improve Baseline Strategy / 改进基线策略**
+   - [ ] Add filters (ADX, volume confirmation)
+   - [ ] Optimize EMA parameters per symbol
+   - [ ] Test alternative entry/exit rules
+
+5. **Advanced Regime Rules / 高级Regime规则**
+   - [ ] Dynamic position sizing based on volatility
+   - [ ] Regime-dependent stop-loss
+   - [ ] Regime transition signals
+
+6. **ML Integration / ML集成**
+   - [ ] Train logistic regression for tail event prediction
+   - [ ] Use ML-based RiskScore instead of simple average
+   - [ ] Feature importance analysis
 
 ---
 
@@ -283,6 +300,6 @@ We have completed the "整理" (Organize) phase. The "画像" (Characterize) pha
 
 ---
 
-**Last Updated / 最后更新**: 2025-11-20  
-**Maintained By / 维护者**: Quant Research Team  
-**Status / 状态**: ✅ Setup Complete / 设置完成
+**Last Updated / 最后更新**: 2025-11-20
+**Maintained By / 维护者**: Quant Research Team
+**Status / 状态**: ✅ Phase 1 Complete, Strategy Phase 1 Complete / Phase 1完成，策略Phase 1完成
