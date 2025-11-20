@@ -3,7 +3,7 @@
 
 # Symbols and timeframes to backtest
 symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
-timeframes: ["4h"]  # Start with 4h for S1; can extend later
+timeframes: ["5min", "15min", "30min", "1h", "4h", "1d"]  # All timeframes for comprehensive analysis
 
 # Baseline strategy parameters (EMA trend-following)
 baseline:
