@@ -335,8 +335,9 @@ def run_phase2d_analysis(config_path: Path = Path("research/strategy/phase2/conf
         # Average transition probabilities
         combined_transitions = pd.concat(all_transitions, ignore_index=True)
 
-        # Group by from→to and average probabilities
-        avg_transitions = combined_transitions.groupby('from').mean()
+        # Group by from→to and average probabilities (exclude non-numeric columns)
+        numeric_cols = combined_transitions.select_dtypes(include=[np.number]).columns
+        avg_transitions = combined_transitions.groupby('from')[numeric_cols].mean()
 
         avg_transitions.to_csv(
             output_dir / "regime_transition_matrix_aggregated.csv"
