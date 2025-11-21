@@ -1,0 +1,90 @@
+# Stage L2: Ladder + Regime Integration Configuration
+
+# Global experiment settings
+experiments:
+  symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
+  timeframes: ["5min", "15min", "30min", "1h", "4h", "1d"]  # All timeframes
+  
+  # Use Phase 2 recommended threshold
+  use_new_high_riskscore: true
+  high_riskscore: 0.70  # From Phase 2A calibration
+  
+  # Output paths
+  output_dir: "results/strategy/ladder_phase"
+  
+  # Transaction costs (from Phase 2C)
+  transaction_cost_bps: 1.0  # 1bp per side
+
+# Ladder indicator parameters
+ladder:
+  fast_len: 25  # Fast EMA bands
+  slow_len: 90  # Slow EMA bands
+
+# Strategy variant definitions (Ladder versions of Phase 3 variants)
+variants:
+  - id: "L_V0_baseline"
+    description: "Ladder + RiskScore gating (0.70), no extra regime logic"
+    enabled: true
+    policy:
+      use_regime_policy: false  # Use existing wrapper only
+      
+  - id: "L_V1_medium_only"
+    description: "Ladder entries only allowed in MEDIUM regime"
+    enabled: true
+    policy:
+      use_regime_policy: true
+      regimes:
+        low:
+          allow_entry: false
+          size_multiplier: 0.0
+        medium:
+          allow_entry: true
+          size_multiplier: 1.0
+        high:
+          allow_entry: false
+          size_multiplier: 0.0
+      dynamic_exit:
+        enabled: false
+        
+  - id: "L_V2_medium_plus_high_scaled"
+    description: "Ladder entries in MEDIUM and HIGH, smaller size in HIGH"
+    enabled: true
+    policy:
+      use_regime_policy: true
+      regimes:
+        low:
+          allow_entry: false
+          size_multiplier: 0.0
+        medium:
+          allow_entry: true
+          size_multiplier: 1.0
+        high:
+          allow_entry: true
+          size_multiplier: 0.5  # 50% size in high risk
+      dynamic_exit:
+        enabled: false
+
+# Performance metrics to track
+metrics:
+  primary:
+    - "net_mean_R"
+    - "sharpe_like"
+    - "tail_R_p5"
+    - "max_drawdown"
+  
+  secondary:
+    - "total_trades"
+    - "win_rate"
+    - "avg_holding_bars"
+    - "regime_distribution"
+
+# Reporting settings
+reporting:
+  generate_plots: false
+  comparison_baseline: "L_V0_baseline"
+  rank_by: "sharpe_like"
+  
+  # Compare with EMA-based Phase 3 results
+  compare_with_ema: true
+  ema_results_dir: "results/strategy/phase3"
+

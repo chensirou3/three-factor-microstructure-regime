@@ -1,0 +1,108 @@
+# Configuration for Ladder × Three-Factor Integration
+# Four directions: Segment analysis, Entry filtering, MTF timing, Exit rules
+
+symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
+high_timeframes: ["4h", "1d"]      # Ladder main battleground
+low_timeframes: ["30min", "1h"]    # For D3 lower timeframe timing
+all_timeframes: ["30min", "1h", "4h", "1d"]  # For comprehensive testing
+
+merged_dir: "data/factors/merged_three_factor"
+ladder_dir: "data/ladder_features"
+
+outputs:
+  root: "results/ladder_factor_combo/"
+
+# Direction 1: Segment & factor analysis
+direction1:
+  min_segment_bars: 3
+  horizons: [1, 3, 5, 10]   # Forward-return horizons for stats
+  factor_bins:
+    manip_z_abs: [0.0, 0.5, 1.0, 2.0]  # Bins for |ManipScore_z|
+    volliq_quantile: [0.0, 0.3, 0.7, 0.9, 1.0]  # Bins for q_vol
+    ofi_z: [-2.0, -0.5, 0.0, 0.5, 2.0]  # Bins for OFI_z
+
+# Direction 2: Entry filters & sizing
+direction2:
+  variants:
+    - id: "D2_plain_ladder"
+      description: "Baseline: Ladder-only entry (no factor filtering)"
+      use_health_filter: false
+      use_health_sizing: false
+      
+    - id: "D2_healthy_only"
+      description: "Only enter on 'healthy' Ladder trends"
+      use_health_filter: true
+      use_health_sizing: false
+      
+    - id: "D2_size_by_health"
+      description: "Size by health: healthy=1.0, suspicious=0.5, unhealthy=0.0"
+      use_health_filter: false
+      use_health_sizing: true
+
+  # "Healthy" trend definition thresholds
+  healthy_thresholds:
+    max_manip_z_abs: 1.0           # |ManipScore_z| < 1.0
+    max_volliq_quantile: 0.85      # q_vol < 0.85
+    min_ofi_same_dir_z: -0.5       # OFI_z >= -0.5 for upTrend
+    
+  # Position sizing by health
+  sizing:
+    healthy: 1.0
+    suspicious: 0.5
+    unhealthy: 0.0
+
+# Direction 3: Multi-timeframe timing
+direction3:
+  use_high_tf_ladder: true
+  
+  # Mapping: low timeframe -> high timeframe for direction
+  high_tf_for_each:
+    "30min": "4h"
+    "1h": "4h"
+  
+  variants:
+    - id: "D3_ladder_high_tf_dir_only"
+      description: "High-TF Ladder direction + simple low-TF entry"
+      use_factor_pullback: false
+      
+    - id: "D3_ladder_high_tf_dir_and_factor_pullback"
+      description: "High-TF Ladder direction + low-TF factor pullback timing"
+      use_factor_pullback: true
+  
+  # Pullback conditions (for D3_*_factor_pullback variants)
+  pullback_conditions:
+    volliq_range: [0.3, 0.7]       # q_vol in neutral range
+    ofi_z_min: -0.5                # OFI_z turning positive
+    riskscore_max: 0.7             # RiskScore not too high
+
+# Direction 4: Factor-based exits
+direction4:
+  variants:
+    - id: "D4_exit_on_extreme_factors"
+      description: "Full exit when extreme factor conditions detected"
+      exit_type: "full"
+      
+    - id: "D4_partial_takeprofit_on_extreme"
+      description: "Partial exit (50%) when extreme factors detected"
+      exit_type: "partial"
+  
+  # Extreme factor thresholds for exit triggers
+  exit_rules:
+    extreme_riskscore_quantile: 0.90   # RiskScore > 0.90
+    extreme_manip_z_abs: 2.0           # |ManipScore_z| > 2.0
+    extreme_volliq_quantile: 0.95      # q_vol > 0.95
+    partial_exit_fraction: 0.5         # For partial exit variants
+
+# Backtest settings
+backtest:
+  atr_col: "ATR"
+  initial_equity: 10000.0
+  transaction_cost_bps: 1.0          # 1 bps per side
+  slippage_pct: 0.0
+  trading_days_per_year: 252
+
+# Ladder parameters (fixed, not to be changed)
+ladder:
+  fast_len: 25
+  slow_len: 90
+

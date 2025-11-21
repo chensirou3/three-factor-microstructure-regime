@@ -1,0 +1,108 @@
+# Phase 3: Regime-aware Strategy Variants Configuration
+
+# Global experiment settings
+experiments:
+  symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
+  timeframes: ["5min", "15min", "30min", "1h", "4h", "1d"]  # All timeframes
+  
+  # Use Phase 2 recommended threshold
+  use_new_high_riskscore: true
+  high_riskscore: 0.70  # From Phase 2A calibration
+  
+  # Output paths
+  output_dir: "results/strategy/phase3"
+  baseline_results_dir: "results/strategy"  # Phase 1 results for comparison
+  
+  # Transaction costs (from Phase 2C)
+  transaction_cost_bps: 1.0  # 1bp per side
+
+# Baseline strategy parameters
+baseline:
+  fast_len: 20
+  slow_len: 50
+  atr_period: 14
+  atr_multiplier: 2.0
+
+# Strategy variant definitions
+variants:
+  - id: "V0_baseline"
+    description: "Original EMA + RiskScore gating (0.70), no extra regime logic"
+    enabled: true
+    policy:
+      use_regime_policy: false  # Use existing wrapper only
+      
+  - id: "V1_medium_only"
+    description: "Entries only allowed in MEDIUM regime"
+    enabled: true
+    policy:
+      use_regime_policy: true
+      regimes:
+        low:
+          allow_entry: false
+          size_multiplier: 0.0
+        medium:
+          allow_entry: true
+          size_multiplier: 1.0
+        high:
+          allow_entry: false
+          size_multiplier: 0.0
+      dynamic_exit:
+        enabled: false
+        
+  - id: "V2_medium_plus_high_scaled"
+    description: "Entries in MEDIUM and HIGH, smaller size in HIGH"
+    enabled: true
+    policy:
+      use_regime_policy: true
+      regimes:
+        low:
+          allow_entry: false
+          size_multiplier: 0.0
+        medium:
+          allow_entry: true
+          size_multiplier: 1.0
+        high:
+          allow_entry: true
+          size_multiplier: 0.5  # 50% size in high risk
+      dynamic_exit:
+        enabled: false
+        
+  - id: "V3_medium_with_high_escape"
+    description: "Enter in MEDIUM only, exit early if prolonged HIGH"
+    enabled: true
+    policy:
+      use_regime_policy: true
+      regimes:
+        low:
+          allow_entry: false
+          size_multiplier: 0.0
+        medium:
+          allow_entry: true
+          size_multiplier: 1.0
+        high:
+          allow_entry: false  # No new entries in high
+          size_multiplier: 0.0
+      dynamic_exit:
+        enabled: true
+        high_persistence_bars: 2  # Exit if HIGH for 2+ consecutive bars
+
+# Performance metrics to track
+metrics:
+  primary:
+    - "net_mean_R"
+    - "sharpe_like"
+    - "tail_R_p5"
+    - "max_drawdown"
+  
+  secondary:
+    - "total_trades"
+    - "win_rate"
+    - "avg_holding_bars"
+    - "regime_distribution"
+
+# Reporting settings
+reporting:
+  generate_plots: false  # Set true if plotting is needed
+  comparison_baseline: "V0_baseline"
+  rank_by: "sharpe_like"  # Primary ranking metric
+

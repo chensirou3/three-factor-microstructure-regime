@@ -1,0 +1,50 @@
+# Phase 4 Configuration: Account-level Performance with Realistic Costs
+
+accounts:
+  - id: "low_cost"
+    description: "Account A with ~0.003% per-side cost (institutional/low-fee exchange)"
+    initial_equity: 10000.0
+    cost_per_side_pct: 0.003    # 0.003% per side (0.006% round-trip)
+
+  - id: "high_cost"
+    description: "Account B with ~0.07% per-side cost (retail/high-fee exchange)"
+    initial_equity: 10000.0
+    cost_per_side_pct: 0.07     # 0.07% per side (0.14% round-trip)
+
+strategies:
+  # Select which Phase 3 variants to include in Phase 4
+  - id: "V2_medium_plus_high_scaled"
+    description: "Main recommended strategy (MEDIUM full size, HIGH half size)"
+  - id: "V1_medium_only"
+    description: "Conservative strategy (MEDIUM only)"
+
+experiments:
+  symbols: ["BTCUSD", "ETHUSD", "EURUSD", "USDJPY", "XAGUSD", "XAUUSD"]
+  timeframes: ["30min", "1h", "4h", "1d"]  # Focus on 30min+ as per Phase 2/3 findings
+  merged_data_dir: "data/factors/merged_three_factor"
+  output_root: "results/strategy/phase4/"
+  
+  # Path to Phase 3 config for regime policies
+  phase3_config_path: "research/strategy/phase3/config_phase3.yaml"
+  
+  # Baseline EMA parameters (from Phase 3)
+  baseline_params:
+    fast_len: 20
+    slow_len: 50
+  
+  # Regime gating threshold (from Phase 2)
+  high_riskscore: 0.70
+
+# Performance metrics settings
+metrics:
+  risk_free_rate_annual: 0.0      # Assume 0% risk-free rate
+  trading_days_per_year: 252      # For annualization
+  
+# Plotting settings
+plotting:
+  # Select key combinations to plot
+  key_symbols: ["BTCUSD", "ETHUSD", "USDJPY"]
+  key_timeframes: ["1h", "4h", "1d"]
+  dpi: 100
+  figsize: [12, 6]
+
