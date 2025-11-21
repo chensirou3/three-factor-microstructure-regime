@@ -1,0 +1,81 @@
+# D3 Production Strategy Configuration
+
+# Symbols to trade
+symbols:
+  - BTCUSD
+  # - ETHUSD  # Add when data available
+  # - XAUUSD  # Add when data available
+
+# Multi-timeframe pairs for D3 strategy
+d3_pairs:
+  - { symbol: BTCUSD, high_tf: "4h", low_tf: "30min" }
+  - { symbol: BTCUSD, high_tf: "4h", low_tf: "1h" }
+  # Add more pairs when data available:
+  # - { symbol: ETHUSD, high_tf: "4h", low_tf: "30min" }
+  # - { symbol: ETHUSD, high_tf: "4h", low_tf: "1h" }
+  # - { symbol: XAUUSD, high_tf: "4h", low_tf: "30min" }
+
+# Data paths
+data:
+  ladder_dir: "data/ladder_features"
+  results_root: "results/d3_production"
+  log_dir: "logs/d3_production"
+
+# Ladder indicator parameters
+ladder_params:
+  fast_len: 25
+  slow_len: 90
+
+# Strategy configuration
+strategy:
+  variant_id: "D3_ladder_high_tf_dir_only"
+  # D3_ladder_high_tf_dir_only: Enter when high TF upTrend starts, exit when it ends
+  # No factor filters - simplicity wins
+  use_factor_pullback: false
+
+# Risk management parameters
+risk_management:
+  # Position sizing
+  base_position_notional: 1000.0          # Base notional per position (USD)
+  max_positions_per_symbol: 1             # Max concurrent positions per symbol
+  max_total_positions: 3                  # Max total concurrent positions across all symbols
+  
+  # Stop loss
+  use_atr_stop: true                      # Use ATR-based stop loss
+  atr_stop_R: 3.0                         # Stop at entry_price - (3.0 * ATR)
+  atr_col: "ATR"                          # Column name for ATR values
+  
+  # Position management
+  max_holding_bars: 200                   # Force exit after this many bars
+  
+  # Daily risk limits
+  use_daily_limit: true                   # Enable daily loss limit
+  daily_loss_limit_pct: 5.0               # Stop trading if daily loss exceeds 5% of equity
+  
+  # Portfolio-level risk
+  max_portfolio_exposure_pct: 30.0        # Max total exposure as % of equity
+
+# Backtest settings
+backtest:
+  initial_equity: 10000.0
+  trading_days_per_year: 252
+  
+  # Transaction costs
+  cost_per_side_pct_low: 0.003            # Low cost scenario (institutional)
+  cost_per_side_pct_high: 0.07            # High cost scenario (retail)
+  
+  # Default cost scenario for production backtest
+  default_cost_scenario: "low"            # "low" or "high"
+
+# Logging configuration
+logging:
+  level: "INFO"                           # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  console_output: true                    # Also log to console
+  log_trades: true                        # Log individual trade events
+  log_risk_events: true                   # Log risk management events
+
+# Execution mode
+execution:
+  mode: "backtest"                        # "backtest", "paper", "live"
+  # Future: broker-specific settings will go here
+
