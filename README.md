@@ -1,34 +1,67 @@
 # Three-Factor Microstructure Regime Analysis
 
+**最后更新**: 2025-11-21
+**项目状态**: ✅ **生产就绪 - D3 Ladder复利策略完成**
+
 A comprehensive quantitative research framework for market microstructure analysis and algorithmic trading strategy development.
 
-## 🎯 Project Overview
+---
 
-This project implements a **complete quantitative trading research pipeline**, from microstructure factor analysis to production-ready trading strategies:
+## 🎯 项目概览
 
-### **Three-Factor Regime Framework**
-1. **ManipScore** - Price-path abnormality / manipulation intensity detection
-2. **OFI (Order Flow Imbalance)** - Buy vs sell pressure measurement
-3. **VolLiqScore** - Volume surprise + liquidity stress composite
+本项目实现了一个**完整的量化交易研究流程**，从市场微观结构分析到生产就绪的交易策略：
 
-### **Trading Strategy Development**
-- **EMA-based strategies** with regime-aware enhancements
-- **Ladder indicator** for trend identification
-- **Multi-timeframe timing** for precise entry/exit
+### **三因子Regime框架**
+1. **ManipScore** - 价格路径异常/操纵强度检测
+2. **OFI (Order Flow Imbalance)** - 买卖压力测量
+3. **VolLiqScore** - 成交量异常 + 流动性压力综合
 
-## 🏆 Key Achievements
+### **交易策略开发**
+- **EMA策略** + Regime感知增强
+- **Ladder指标** 趋势识别
+- **多周期择时** 精准入场/出场
 
-### **Stage L3: Ladder × Three-Factor Integration** ⭐ **Latest**
-- **Best Strategy**: Multi-timeframe timing (D3_ladder_high_tf_dir_only)
-- **Performance**: 691% return, 91.71% win rate, Sharpe 0.419
-- **Configuration**: BTCUSD 4h→30min with Ladder(25/90)
-- **Status**: ✅ Production-ready
+---
 
-### **Previous Milestones**
-- ✅ Three-factor regime framework (Phase 0-4)
-- ✅ EMA strategy variants with regime policies
-- ✅ Ladder pure strategy baseline (Stage L1)
-- ✅ Comprehensive backtesting infrastructure
+## 🏆 核心成果
+
+### **🚀 Stage L4: D3 Ladder生产版本** ⭐ **最新**
+
+**独立项目**: `d3-ladder-mtf-strategy/` (已迁移，可独立使用)
+
+**最佳配置**: D3 Ladder 复利10% (BTCUSD 4h→30min)
+
+| 指标 | 数值 |
+|------|------|
+| **总收益 (8.4年)** | **571.33%** |
+| **年化收益** | **25.42%** |
+| **最终资金** | **$67,133** (从$10,000) |
+| **胜率** | **91.71%** |
+| **盈亏比** | **61.28** |
+| **最大回撤** | **-0.75%** |
+| **Sharpe比率** | **0.609** |
+
+**近期表现 (2021-2025)**:
+- 年化收益: 24.97%
+- 胜率: 94.59%
+- 最大回撤: -0.15%
+
+**状态**: ✅ **生产就绪，可实盘交易**
+
+---
+
+### **Stage L3: Ladder × Three-Factor Integration**
+- **最佳策略**: 多周期择时 (D3_ladder_high_tf_dir_only)
+- **表现**: 691%收益 (研究版), 91.71%胜率, Sharpe 0.419
+- **配置**: BTCUSD 4h→30min, Ladder(25/90)
+- **关键发现**: 多周期 > 因子过滤
+
+### **之前的里程碑**
+- ✅ 三因子regime框架 (Phase 0-4)
+- ✅ EMA策略变体 + Regime策略
+- ✅ Ladder纯策略基准 (Stage L1)
+- ✅ 完整的回测基础设施
+- ✅ 生产级代码重构 (Stage L4)
 
 ## 📊 Key Features
 
@@ -64,118 +97,158 @@ Factor 3: VolLiqScore
 - **RiskScore**: Unified risk intensity = (q_manip + q_ofi + q_vol) / 3
 - **Risk Regime**: 3-level classification (low/medium/high)
 
-## 📁 Project Structure
+## 📁 项目结构
 
 ```
 three-factor-microstructure-regime/
 ├── research/
-│   ├── three_factor_regime/           # Phase 0-4: Factor framework
+│   ├── three_factor_regime/           # Phase 0-4: 三因子框架
 │   │   ├── data_loader.py
 │   │   ├── three_factor_regime_features.py
 │   │   └── ...
 │   │
 │   ├── strategy/
-│   │   ├── phase3/                    # EMA strategy variants
-│   │   ├── phase4/                    # Account-level backtesting
-│   │   └── ladder_phase/              # Ladder strategy research
+│   │   ├── phase3/                    # EMA策略变体
+│   │   ├── phase4/                    # 账户级回测
+│   │   ├── ladder_phase/              # Ladder策略研究
+│   │   └── d3_production/             # ⭐ D3生产版本 (已迁移)
 │   │
-│   ├── ladder/                        # Ladder indicator implementation
+│   ├── ladder/                        # Ladder指标实现
 │   │   └── ladder_indicator.py
 │   │
-│   └── ladder_factor_combo/           # ⭐ Stage L3: Best strategies
+│   └── ladder_factor_combo/           # ⭐ Stage L3: 最佳策略
 │       ├── config_ladder_factor.yaml
-│       ├── segments_extractor.py      # Direction 1: Segment analysis
+│       ├── segments_extractor.py      # Direction 1: 段分析
 │       ├── segments_factor_stats.py
-│       ├── entry_filter_and_sizing.py # Direction 2: Entry filtering
-│       ├── mtf_timing.py              # Direction 3: Multi-timeframe ⭐
-│       ├── exit_rules.py              # Direction 4: Exit rules
-│       ├── combo_backtests.py         # Unified backtesting
-│       ├── combo_aggregate.py         # Results aggregation
-│       └── combo_report.py            # Report generation
+│       ├── entry_filter_and_sizing.py # Direction 2: 入场过滤
+│       ├── mtf_timing.py              # Direction 3: 多周期择时 ⭐
+│       ├── exit_rules.py              # Direction 4: 退出规则
+│       ├── combo_backtests.py         # 统一回测
+│       ├── combo_aggregate.py         # 结果聚合
+│       └── combo_report.py            # 报告生成
 │
 ├── data/
 │   ├── factors/
-│   │   ├── merged_three_factor/       # Three-factor merged data
-│   │   └── ladder_features/           # Ladder indicator features
+│   │   ├── merged_three_factor/       # 三因子合并数据
+│   │   └── ladder_features/           # Ladder指标特征
 │   └── DATA_SOURCES.md
 │
 ├── results/
-│   ├── three_factor_regime/           # Factor analysis results
-│   ├── strategy/                      # Strategy backtest results
-│   └── ladder_factor_combo/           # ⭐ Stage L3 results (84 experiments)
-│       ├── direction2/                # Entry filtering results
-│       ├── direction3/                # Multi-timeframe results ⭐
-│       ├── direction4/                # Exit rules results
-│       └── aggregate_*.csv            # Aggregated comparisons
+│   ├── three_factor_regime/           # 因子分析结果
+│   ├── strategy/                      # 策略回测结果
+│   ├── d3_production/                 # D3生产版本结果
+│   └── ladder_factor_combo/           # ⭐ Stage L3结果 (84个实验)
+│       ├── direction2/                # 入场过滤结果
+│       ├── direction3/                # 多周期结果 ⭐
+│       ├── direction4/                # 退出规则结果
+│       └── aggregate_*.csv            # 聚合对比
 │
-├── docs/                              # ⭐ Comprehensive documentation
-│   ├── PROJECT_PROGRESS_REPORT.md     # Complete project history
-│   ├── STAGE_L3_EXECUTIVE_SUMMARY.md  # Stage L3 executive summary
-│   ├── LADDER_FACTOR_COMBO_ANALYSIS.md # Deep analysis
-│   └── LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md
+├── docs/                              # ⭐ 完整文档
+│   ├── PROJECT_PROGRESS_REPORT.md     # 项目进度报告 (已更新)
+│   ├── PROJECT_HISTORY.md             # 完整项目历史 (新增)
+│   ├── STAGE_L3_EXECUTIVE_SUMMARY.md  # Stage L3总结
+│   ├── D3_PRODUCTION_VALIDATION.md    # D3生产验证
+│   └── LADDER_FACTOR_COMBO_*.md       # 详细分析文档
 │
-└── README.md                          # This file
+└── README.md                          # 本文件
 ```
 
-## 🚀 Quick Start
+## 🚀 快速开始
 
-### Prerequisites
+### **推荐: 使用生产就绪的D3 Ladder策略**
+
+**独立项目**: `d3-ladder-mtf-strategy/` (已从本仓库迁移)
+
+```bash
+# 1. 进入独立项目目录
+cd d3-ladder-mtf-strategy
+
+# 2. 安装依赖
+pip install -r requirements.txt
+
+# 3. 运行复利版本回测
+python scripts/backtest_compound.py
+
+# 4. 运行2021-2025近期回测
+python scripts/backtest_2021_2025.py
+```
+
+**预期结果**:
+- BTCUSD 4h→30min: 571%收益 (8.4年), 25.4%年化
+- 胜率: 91.71%, 最大回撤: -0.75%
+- 详细报告: `results/COMPOUND_PERFORMANCE_REPORT.md`
+
+**配置文件**:
+```yaml
+# config/config_d3_compound.yaml
+risk:
+  use_compounding: true
+  compound_pct: 10.0  # 10% of equity per trade
+```
+
+---
+
+### **研究版本: 探索完整项目**
+
+#### **前置要求**
 
 - Python 3.10+
 - pandas, numpy, pyarrow
 - yaml, logging
 
-### Installation
+#### **安装**
 
 ```bash
 git clone https://github.com/chensirou3/three-factor-microstructure-regime.git
 cd three-factor-microstructure-regime
-pip install pandas numpy pyarrow pyyaml
+pip install pandas numpy pyarrow pyyaml matplotlib
 ```
 
-### Usage
-
-#### **Option 1: Run Best Strategy (Stage L3 - Multi-timeframe Timing)**
+#### **选项1: 运行最佳策略 (Stage L3 - 多周期择时)**
 
 ```bash
-# Run Direction 3 backtests (recommended)
+# 运行Direction 3回测 (推荐)
 cd research/ladder_factor_combo
 python combo_backtests.py
 
-# Aggregate results
+# 聚合结果
 python combo_aggregate.py
 
-# Generate report
+# 生成报告
 python combo_report.py
 ```
 
-**Expected Output**:
-- BTCUSD 4h→30min: 691% return, 91.71% win rate
-- Complete analysis in `LADDER_FACTOR_COMBO_COMPLETE_REPORT.md`
+**预期输出**:
+- BTCUSD 4h→30min: 691%收益 (研究版), 91.71%胜率
+- 完整分析: `LADDER_FACTOR_COMBO_COMPLETE_REPORT.md`
 
-#### **Option 2: Run Complete Factor Analysis Pipeline**
+#### **选项2: 运行完整因子分析流程**
 
 ```bash
 python run_complete_pipeline.py
 ```
 
-This will:
-- Load and merge three factors
-- Add regime features to merged datasets
-- Run single-factor decile analysis
-- Compute regime-level statistics
+这将:
+- 加载并合并三因子
+- 添加regime特征到合并数据集
+- 运行单因子十分位分析
+- 计算regime级别统计
 
-#### **Option 3: Explore Individual Stages**
+#### **选项3: 探索各个阶段**
 
 ```bash
-# Stage L1: Ladder pure strategy
+# Stage L1: Ladder纯策略
 python research/strategy/ladder_phase/ladder_baseline_backtest.py
 
 # Stage L2: Ladder + EMA regime
 python research/strategy/ladder_phase/ladder_ema_regime_backtest.py
 
-# Stage L3: Ladder × Factor integration (all 4 directions)
+# Stage L3: Ladder × Factor整合 (4个方向)
 python research/ladder_factor_combo/combo_backtests.py
+
+# Stage L4: D3生产版本 (已迁移到独立项目)
+cd ../d3-ladder-mtf-strategy
+python scripts/backtest_compound.py
 ```
 
 ## 📊 Data Coverage
@@ -235,43 +308,67 @@ python research/ladder_factor_combo/combo_backtests.py
 - Risk-focused analysis (|ret|, tail probabilities)
 - Foundation for strategy development
 
-## 📁 Key Output Files
+## 📁 关键输出文件
 
-### **Stage L3 Results** (Most Important)
-- `LADDER_FACTOR_COMBO_COMPLETE_REPORT.md` - Official results
-- `LADDER_FACTOR_COMBO_ANALYSIS.md` - Deep dive analysis
-- `STAGE_L3_EXECUTIVE_SUMMARY.md` - Executive summary
-- `results/ladder_factor_combo/aggregate_all_directions.csv` - All 84 experiments
+### **🚀 Stage L4: 生产版本** (最新)
+- `d3-ladder-mtf-strategy/` - **独立生产项目** (已迁移)
+- `d3-ladder-mtf-strategy/results/COMPOUND_PERFORMANCE_REPORT.md` - 复利版本报告
+- `docs/D3_PRODUCTION_VALIDATION.md` - 生产版本验证
+- `docs/PROJECT_HISTORY.md` - **完整项目历史** (新增)
 
-### **Project Documentation**
-- `PROJECT_PROGRESS_REPORT.md` - Complete project history
-- `LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md` - Implementation details
+### **Stage L3 Results** (研究版本)
+- `LADDER_FACTOR_COMBO_COMPLETE_REPORT.md` - 官方结果
+- `LADDER_FACTOR_COMBO_ANALYSIS.md` - 深度分析
+- `STAGE_L3_EXECUTIVE_SUMMARY.md` - 执行摘要
+- `results/ladder_factor_combo/aggregate_all_directions.csv` - 84个实验
 
-### **Factor Analysis Results**
-- `results/three_factor_regime/` - Regime statistics (108 CSV files)
-- `data/factors/merged_three_factor/` - Merged datasets (36 parquet files)
+### **项目文档**
+- `PROJECT_PROGRESS_REPORT.md` - 项目进度报告 (已更新)
+- `PROJECT_HISTORY.md` - **完整项目历史** (新增)
+- `LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md` - 实现细节
 
-## 📚 Documentation
+### **因子分析结果**
+- `results/three_factor_regime/` - Regime统计 (108个CSV)
+- `data/factors/merged_three_factor/` - 合并数据集 (36个parquet)
 
-### **Quick Reference**
-- **[PROJECT_PROGRESS_REPORT.md](PROJECT_PROGRESS_REPORT.md)** - Complete project history and all stages
-- **[STAGE_L3_EXECUTIVE_SUMMARY.md](STAGE_L3_EXECUTIVE_SUMMARY.md)** - Latest breakthrough results
-- **[LADDER_FACTOR_COMBO_ANALYSIS.md](LADDER_FACTOR_COMBO_ANALYSIS.md)** - Deep dive into best strategies
+---
 
-### **Stage L3 Documentation**
-- [LADDER_FACTOR_COMBO_COMPLETE_REPORT.md](LADDER_FACTOR_COMBO_COMPLETE_REPORT.md) - Official results
-- [LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md](LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md) - Implementation
-- [LADDER_FACTOR_COMBO_STATUS.md](LADDER_FACTOR_COMBO_STATUS.md) - Project status
+## 📚 文档导航
 
-### **Previous Stages**
-- [LADDER_STAGE_L1_SUMMARY.md](LADDER_STAGE_L1_SUMMARY.md) - Pure Ladder baseline
-- [STAGE_L2_COMPLETE_SUMMARY.md](STAGE_L2_COMPLETE_SUMMARY.md) - Ladder + EMA regime
-- [STRATEGY_PHASE3_REPORT.md](STRATEGY_PHASE3_REPORT.md) - EMA strategy variants
-- [STRATEGY_PHASE4_ACCOUNT_PERFORMANCE.md](STRATEGY_PHASE4_ACCOUNT_PERFORMANCE.md) - Account-level testing
+### **⭐ 推荐阅读顺序**
 
-### **Foundation**
-- [FINAL_COMPLETION_REPORT.md](FINAL_COMPLETION_REPORT.md) - Three-factor framework completion
-- [data/DATA_SOURCES.md](data/DATA_SOURCES.md) - Data schema
+1. **快速了解**: `README.md` (本文件)
+2. **项目历史**: `docs/PROJECT_HISTORY.md` ⭐ **新增**
+   - 完整的项目演进过程
+   - 每个模块的作用和设计思路
+   - 为什么这样做，基于什么想法
+3. **进度报告**: `docs/PROJECT_PROGRESS_REPORT.md`
+   - 各阶段完成情况
+   - 关键指标和结果
+4. **生产版本**: `d3-ladder-mtf-strategy/docs/COMPOUND_PERFORMANCE_REPORT.md`
+   - 复利版本详细报告
+   - 实盘建议
+
+### **Stage L4 文档** (生产版本)
+- [PROJECT_HISTORY.md](docs/PROJECT_HISTORY.md) - **完整项目历史** ⭐
+- [D3_PRODUCTION_VALIDATION.md](docs/D3_PRODUCTION_VALIDATION.md) - 生产验证
+- [d3-ladder-mtf-strategy/docs/](../d3-ladder-mtf-strategy/docs/) - 独立项目文档
+
+### **Stage L3 文档** (研究版本)
+- [LADDER_FACTOR_COMBO_COMPLETE_REPORT.md](docs/LADDER_FACTOR_COMBO_COMPLETE_REPORT.md) - 官方结果
+- [LADDER_FACTOR_COMBO_ANALYSIS.md](docs/LADDER_FACTOR_COMBO_ANALYSIS.md) - 深度分析
+- [STAGE_L3_EXECUTIVE_SUMMARY.md](docs/STAGE_L3_EXECUTIVE_SUMMARY.md) - 执行摘要
+- [LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md](docs/LADDER_FACTOR_COMBO_TECHNICAL_DETAILS.md) - 技术细节
+
+### **之前阶段**
+- [LADDER_STAGE_L1_SUMMARY.md](docs/LADDER_STAGE_L1_SUMMARY.md) - Ladder纯策略
+- [STAGE_L2_COMPLETE_SUMMARY.md](docs/STAGE_L2_COMPLETE_SUMMARY.md) - Ladder + EMA regime
+- [STRATEGY_PHASE3_REPORT.md](docs/STRATEGY_PHASE3_REPORT.md) - EMA策略变体
+- [STRATEGY_PHASE4_ACCOUNT_PERFORMANCE.md](docs/STRATEGY_PHASE4_ACCOUNT_PERFORMANCE.md) - 账户级测试
+
+### **基础框架**
+- [FINAL_COMPLETION_REPORT.md](docs/FINAL_COMPLETION_REPORT.md) - 三因子框架完成
+- [data/DATA_SOURCES.md](data/DATA_SOURCES.md) - 数据模式
 
 ## 🔧 Technical Architecture
 
@@ -347,36 +444,56 @@ risk_regime = low/medium/high based on RiskScore
 ❌ High-frequency timeframes (5min, 15min)
 ❌ Over-complex factor conditions
 
-## 🚀 Next Steps
+## 🚀 下一步计划
 
-### **Immediate (Production Deployment)**
-1. ✅ Code review and optimization
-2. ✅ Risk management module
-3. ⏳ Live trading environment setup
-4. ⏳ Real-time monitoring dashboard
+### **短期 (1-2个月)** - 实盘验证
+1. ✅ 代码审查和优化 (已完成)
+2. ✅ 风险管理模块 (已完成)
+3. ✅ 生产代码重构 (已完成)
+4. ✅ 复利版本实现 (已完成)
+5. 🔄 纸上交易验证 (1-2周)
+6. 🔄 券商API集成 (MT5/IB/Exness)
+7. 🔄 小资金实盘测试 ($500-1000)
 
-### **Short-term (1-2 months)**
-- [ ] Small capital live testing
-- [ ] Performance tracking vs backtest
-- [ ] Execution optimization
-- [ ] Expand to more symbols
+### **中期 (3-6个月)** - 扩展优化
+- [ ] 实盘性能跟踪 vs 回测
+- [ ] 扩展到更多标的 (XAUUSD, ETHUSD)
+- [ ] 优化复利比例 (5%-15%)
+- [ ] 测试其他周期组合 (1d→4h, 1d→1h)
+- [ ] 执行优化 (滑点、延迟)
 
-### **Long-term (3-6 months)**
-- [ ] Full capital deployment
-- [ ] Test other timeframe pairs (1d→4h, 1d→1h)
-- [ ] Machine learning enhancements
-- [ ] Adaptive parameter tuning
-- [ ] Portfolio optimization
+### **长期 (6-12个月)** - 高级功能
+- [ ] 多策略组合
+- [ ] 机器学习增强
+- [ ] 自适应参数调整
+- [ ] 扩展到其他市场 (股票、期货)
+- [ ] 投资组合优化
 
-## 📊 Project Statistics
+---
 
-- **Total Experiments**: 300+ backtests
-- **Total Trades Analyzed**: 1,500,000+
-- **Trend Segments**: 75,428
-- **Code Lines**: 10,000+
-- **Documentation Pages**: 15+
-- **Research Duration**: 3 months
-- **Best Strategy ROI**: 691% (BTCUSD 4h→30min)
+## 📊 项目统计
+
+### **研究规模**
+- **总实验数**: 350+ 回测
+- **总交易数**: 1,500,000+
+- **趋势段数**: 75,428
+- **代码行数**: 12,000+ (研究 + 生产)
+- **文档页数**: 30+
+- **研究周期**: 约1年 (2024-11 至 2025-11)
+
+### **最佳表现**
+- **研究版ROI**: 691% (BTCUSD 4h→30min, 8.4年)
+- **生产版ROI**: 571% (复利10%, 8.4年)
+- **年化收益**: 25.4%
+- **胜率**: 91.71%
+- **最大回撤**: -0.75%
+
+### **项目成果**
+- ✅ 完整的三因子框架
+- ✅ Ladder策略系统
+- ✅ 多周期择时发现
+- ✅ 生产就绪代码
+- ✅ 独立项目迁移
 
 ## 📝 Citation
 
